@@ -97,8 +97,8 @@ CREATE TABLE archivos_pdf (
 );
 ```
 # Autores
-Carlos Azael Ramirez Rodriguez
-Jovita María Fernanda Antúnez Rubio
+- Carlos Azael Ramirez Rodriguez
+- Jovita María Fernanda Antúnez Rubio
 
 ```bash
 git clone https://github.com/carlosazaelr/gestion-protesis.git
