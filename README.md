@@ -47,7 +47,8 @@ PROYECTO/
 
 Para ejecutar el proyecto en tu máquina local:
 1. Instala las dependencias siguientes: npm install express mysql2 dotenv multer xlsx nodemon bcrypt
-2. Cuante con las tablas necesarias en su base de datos de MySQL:
+2. Cuante con las tablas necesarias en su base de datos de MySQL.
+3. Para iniciar el servidor: npm start
 
 ## Esquema SQL
 ```sql
