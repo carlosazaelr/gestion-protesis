@@ -96,6 +96,9 @@ CREATE TABLE archivos_pdf (
     fecha_subida TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 ```
+# Autores
+Carlos Azael Ramirez Rodriguez
+Jovita María Fernanda Antúnez Rubio
 
 ```bash
 git clone https://github.com/carlosazaelr/gestion-protesis.git
