@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pacientes</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div id="navbar"></div>
+  <h1>Cargar pacientes desde Excel</h1>
+  <form action="/upload" method="POST" enctype="multipart/form-data">
+    <input type="file" name="excelFile" accept=".xlsx" />
+    <button type="submit">Subir Archivo</button>
+  </form>
+  <button onclick="window.location.href='/download'">Descargar Pacientes</button>
+  <h1>Cargar reportes en pdf</h1>
+  <form action="/subir-pdf" method="POST" enctype="multipart/form-data">
+    <label for="pdf">Subir archivo PDF:</label>
+    <input type="file" id="pdf" name="pdf" accept="application/pdf" required>
+    <button type="submit">Subir</button>
+  </form>
+  <button onclick="window.location.href='/ver-pdf'">Ver reportes subidos</button>
+  <h1>Descargar reporte</h1>
+  <form action="/download-pdf" method="POST">
+    <label for="id">Id del reporte:</label>
+    <input type="number" id="id" name="id">
+  
+    <button type="submit">Guardar</button>
+  </form>
+  <button onclick="window.location.href='/'">Volver</button>
+  <script>
+    // Insertar el contenido de navbar.html en el elemento con id "navbar"
+  fetch('/navbar.html')
+      .then(response => response.text())
+      .then(data => {
+          document.getElementById('navbar').innerHTML = data;
+      })
+      .catch(error => console.error('Error cargando el navbar:', error));
+// Solicitar el tipo de usuario y ajustar el menú en función de este
+  fetch('/tipo-usuario')
+      .then(response => response.json())
+      .then(data => {
+            const menu = document.getElementById('menu');
+            const tipoUsuario = data.tipo_usuario;
+
+            // Agregar opciones de menú según el tipo de usuario
+            if (tipoUsuario === 'admin') {
+                menu.innerHTML += '<li><a href="/ver-usuarios">Ver Usuarios</a></li>';
+                menu.innerHTML += '<li><a href="/busqueda.html">Buscar Usuarios</a></li>';
+                menu.innerHTML += '<li><a href="/gestion-protesis.html">Gestionar Prótesis</a></li>';
+                menu.innerHTML += '<li><a href="/gestion-revisiones.html">Gestionar Revisiones</a></li>';
+                menu.innerHTML += '<li><a href="/gestion-archivos.html">Gestionar archivos</a></li>';
+            } else if (tipoUsuario === 'tecnico') {
+              menu.innerHTML += '<li><a href="/gestion-protesis.html">Gestionar Prótesis</a></li>';
+              menu.innerHTML += '<li><a href="/gestion-revisiones.html">Gestionar Revisiones</a></li>';
+              menu.innerHTML += '<li><a href="/gestion-archivos.html">Gestionar archivos</a></li>';
+            }
+
+            // Opción de cerrar sesión para todos los tipos de usuario
+            menu.innerHTML += '<li><a href="/logout">Cerrar Sesión</a></li>';
+        })
+        .catch(error => console.error('Error obteniendo el tipo de usuario:', error));
+  </script>
+</body>
+</html>

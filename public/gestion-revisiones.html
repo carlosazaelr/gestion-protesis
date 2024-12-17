@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Gestión de Prótesis</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<div id="navbar"></div>
+<h2>Registro de revisión de prótesis</h2>
+<form action="/registrar-revision" method="POST">
+    
+  <label for="id_protesis">Id de la prótesis:</label>
+  <input type="number" id="id_protesis" name="id_protesis">
+
+  <label for="fecha">Fecha de revisión:</label>
+  <input type="date" id="fecha" name="fecha">
+
+  <label for="estado">Estado de la prótesis:</label>
+  <input type="text" id="estado" name="estado">
+
+  <label for="observaciones">Observaciones:</label>
+  <input type="text" id="observaciones" name="observaciones">
+
+  <label for="puntaje">Puntaje:</label>
+  <input type="number" id="puntaje" name="puntaje" step="0.01">
+
+  <button type="submit">Guardar registro</button>
+</form>
+<h2>Revisar historial de revisiones</h2>
+<form action="/historial" method="GET">
+    
+  <label for="id_protesis">Id de la prótesis:</label>
+  <input type="number" id="id_protesis" name="id_protesis">
+
+  <button type="submit">Buscar</button>
+</form>
+<button onclick="window.location.href='/historial-total'">Ver historial completo de revisiones</button>
+<ul id="results"></ul>
+  <button onclick="window.location.href='/'">Volver</button>
+  <script>
+    // Insertar el contenido de navbar.html en el elemento con id "navbar"
+  fetch('/navbar.html')
+      .then(response => response.text())
+      .then(data => {
+          document.getElementById('navbar').innerHTML = data;
+      })
+      .catch(error => console.error('Error cargando el navbar:', error));
+// Solicitar el tipo de usuario y ajustar el menú en función de este
+  fetch('/tipo-usuario')
+      .then(response => response.json())
+      .then(data => {
+            const menu = document.getElementById('menu');
+            const tipoUsuario = data.tipo_usuario;
+
+            // Agregar opciones de menú según el tipo de usuario
+            if (tipoUsuario === 'admin') {
+                menu.innerHTML += '<li><a href="/ver-usuarios">Ver Usuarios</a></li>';
+                menu.innerHTML += '<li><a href="/busqueda.html">Buscar Usuarios</a></li>';
+                menu.innerHTML += '<li><a href="/gestion-protesis.html">Gestionar Prótesis</a></li>';
+                menu.innerHTML += '<li><a href="/gestion-revisiones.html">Gestionar Revisiones</a></li>';
+                menu.innerHTML += '<li><a href="/gestion-archivos.html">Gestionar archivos</a></li>';
+            } else if (tipoUsuario === 'tecnico') {
+              menu.innerHTML += '<li><a href="/gestion-protesis.html">Gestionar Prótesis</a></li>';
+              menu.innerHTML += '<li><a href="/gestion-revisiones.html">Gestionar Revisiones</a></li>';
+              menu.innerHTML += '<li><a href="/gestion-archivos.html">Gestionar archivos</a></li>';
+            }
+
+            // Opción de cerrar sesión para todos los tipos de usuario
+            menu.innerHTML += '<li><a href="/logout">Cerrar Sesión</a></li>';
+        })
+        .catch(error => console.error('Error obteniendo el tipo de usuario:', error));
+  </script>
+</body>
+</html>

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Gestión de Protesis</title>
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+  <h1>Bienvenido a la Gestión de Prótesis</h1>
+  <p>Esta es una página básica para administrar pacientes y sus prótesis.</p>
+  <img src="imagenes/protesis-logo.png" alt="Logo" class="logo">
+  <div id="navbar"></div>
+  <h2>Insertar Pacientes</h2>
+  <form action="/submit-data" method="POST">
+    <label for="name">Nombre del paciente:</label>
+    <input type="text" id="name" name="name">
+    
+    <label for="last-name">Apellido:</label>
+    <input type="text" id="last-name" name="last_name">
+  
+    <label for="email">Email:</label>
+    <input type="text" id="email" name="email">
+
+    <label for="birthday">Fecha de nacimiento: </label>
+    <input type="date" id="birthday" name="birthday">
+  
+    <button type="submit">Guardar</button>
+  </form>
+  <h2>Actualizar Pacientes</h2>
+  <form action="/actualizar-paciente" method="POST">
+    <label for="id">Id del paciente:</label>
+    <input type="number" id="id" name="id">
+
+    <label for="name">Nombre del paciente:</label>
+    <input type="text" id="name" name="name">
+    
+    <label for="last-name">Apellido:</label>
+    <input type="text" id="last-name" name="last_name">
+  
+    <label for="email">Email:</label>
+    <input type="text" id="email" name="email">
+
+    <label for="birthday">Fecha de nacimiento: </label>
+    <input type="date" id="birthday" name="birthday">
+  
+    <button type="submit">Guardar</button>
+  </form>
+  <h2>Eliminar Pacientes</h2>
+  <form action="/eliminar-paciente" method="POST">
+    <label for="id">Id del paciente:</label>
+    <input type="number" id="id" name="id">
+  
+    <button type="submit">Guardar</button>
+  </form>
+  <button onclick="window.location.href='/pacientes'">Ver Pacientes Guardados</button>
+  <button onclick="window.location.href='/vista'">Ver Vista de Pacientes-Protesis-Revisión</button>
+  
+<button onclick="window.location.href='/numero-revisiones'">Ordenar por Número de Revisiones</button>
+<button onclick="window.location.href='/prom-puntaje'">Ver Promedio de Puntaje</button>
+<button onclick="window.location.href='/mayor-promedio'">Ver Protesis de con revisión mayor al promedio</button>
+</form>
+<footer>
+  <div class="social-icons">
+    <a href="https://www.facebook.com/share/15SAmyaZWJ/?mibextid=LQQJ4d"target="_blank"><i class="fab fa-facebook-f"></i></a>
+    <a href="https://www.instagram.com/bio.med.solutions/profilecard/?igsh=MTl1dmhsdGRhbjBuOQ=="target="_blank"><i class="fab fa-instagram"></i></a>
+</div>
+<div class="footer-bottom">
+  © 2024 BioMed Solutions. Derechos Reservados.
+</div>
+<footer>
+<script>
+  // Insertar el contenido de navbar.html en el elemento con id "navbar"
+  fetch('/navbar.html')
+      .then(response => response.text())
+      .then(data => {
+          document.getElementById('navbar').innerHTML = data;
+      })
+      .catch(error => console.error('Error cargando el navbar:', error));
+// Solicitar el tipo de usuario y ajustar el menú en función de este
+  fetch('/tipo-usuario')
+      .then(response => response.json())
+      .then(data => {
+            const menu = document.getElementById('menu');
+            const tipoUsuario = data.tipo_usuario;
+
+            // Agregar opciones de menú según el tipo de usuario
+            if (tipoUsuario === 'admin') {
+                menu.innerHTML += '<li><a href="/ver-usuarios">Ver Usuarios</a></li>';
+                menu.innerHTML += '<li><a href="/busqueda.html">Buscar Usuarios</a></li>';
+                menu.innerHTML += '<li><a href="/gestion-protesis.html">Gestionar Prótesis</a></li>';
+                menu.innerHTML += '<li><a href="/gestion-revisiones.html">Gestionar Revisiones</a></li>';
+                menu.innerHTML += '<li><a href="/gestion-archivos.html">Gestionar archivos</a></li>';
+            } else if (tipoUsuario === 'tecnico') {
+              menu.innerHTML += '<li><a href="/gestion-protesis.html">Gestionar Prótesis</a></li>';
+              menu.innerHTML += '<li><a href="/gestion-revisiones.html">Gestionar Revisiones</a></li>';
+              menu.innerHTML += '<li><a href="/gestion-archivos.html">Gestionar archivos</a></li>';
+            }
+
+            // Opción de cerrar sesión para todos los tipos de usuario
+            menu.innerHTML += '<li><a href="/logout">Cerrar Sesión</a></li>';
+        })
+        .catch(error => console.error('Error obteniendo el tipo de usuario:', error));
+</script>
+</body>
+</html>
